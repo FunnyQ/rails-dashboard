@@ -75,11 +75,12 @@ const PROCESSOR = {
     serverInfo = { webServer: ret[1] };
   },
   [RAILS]: line => {
-    let ret = line.match(/=> Rails (\S+) .+ on (\S+)/);
+    let retForRailsVersion = line.match(/=> Rails (\S+)/);
+    // It seems that Rails 5.1 not provid url info in booting log.
 
-    if (!ret) return;
+    if (!retForRailsVersion) return;
 
-    Object.assign(serverInfo, { railsVersion: ret[1], url: ret[2] });
+    Object.assign(serverInfo, { railsVersion: retForRailsVersion[1], url: 'http://localhost:3000' });
   },
   [VERSION]: line => {
     let ret = line.match(/Version (\S+) \(ruby (\S+)\)/);
